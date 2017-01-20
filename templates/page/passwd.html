@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+	<link rel="shortcut icon" href="http://erp.xiaodutv.com/favicon.ico" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <meta name="wap-font-scale" content="no">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta content="telephone=no" name="format-detection">
+	<!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+	<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-fluid" style='width:450px;;margin:20px auto;'>
+
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">密码修改</h3>
+  </div>
+  <div class="panel-body">
+
+   <div class="form-group">
+    <label for="name">用户名</label>
+    <input type="text" class="form-control" id="name" placeholder="小度视频">
+  </div>
+  <div class="form-group">
+    <label for="email">邮件地址</label>
+    <input type="text" class="form-control" id="email" placeholder="email@xiaodutv.com">
+  </div>
+  <div class="form-group">
+    <label for="oldpassword">旧密码</label>
+    <input type="text" class="form-control" id="oldpassword" placeholder="old Password">
+  </div>
+  <div class="form-group">
+    <label for="password">新密码</label>
+    <input type="text" class="form-control" id="password" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <label for="repassword">确认密码</label>
+    <input type="text" class="form-control" id="repassword" placeholder="同时包含：字母大小写、数字、特殊字符且长度大于8位">
+  </div>
+  <button type="submit" class="btn btn-default" id='submit'>重置密码</button>
+
+   
+   <script type='text/javascript'>
+	(function(){
+	
+		function submit(){
+			var name = $('#name').val();
+			var email = $('#email').val();
+			var password = $('#password').val();
+			var oldpassword = $('#oldpassword').val();
+			var repassword = $('#repassword').val();
+			
+			if( name == '' || email == '' || password =='' || repassword=='' ){
+				alert('have empty');
+				return;
+			}
+			if( password != repassword ){
+				alert('再次密码不一致');
+				return;
+			}
+			
+			if(!/(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,30}/.test(password)){
+				alert('由于此密码为公司域密码，\n 所以密码必须同时包含：字母大，小写、数字、特殊字符且长度大于8位');
+				return ;
+			}
+			
+			$.ajax({
+				url:'/chpasswd',
+				data:{
+					name: name,
+					email: email,
+					password: password,
+					oldpassword: oldpassword
+				},
+				type: 'POST',
+				dataType: 'json',
+				success: function(data){
+					if(data.err && data.err != 0 ){
+						if(data.err == 102){
+							alert('旧密码出错');
+							return ;
+						}else if(data.err == 103){
+							alert('密码太过简单，出错');
+						}else{
+							alert('未知错误');
+						}
+					}else{
+						alert('密码修改成功');
+						var fr = /[?&]fr=([^&]*)$/.exec(window.location.href);
+						window.location.href = fr?decodeURIComponent(fr[1]):'http://erp.xiaodutv.com/';
+					}
+					
+				}
+				
+			})
+			
+		}
+
+		
+		
+		$('#submit').click(submit);
+		
+	})();
+	
+   
+   </script>
+  </div>
+</div>
+
+
+</div>
+</body>
+
+</html>
