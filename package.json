@@ -9,7 +9,7 @@
     "debug": "env NODE_DEBUG=yog/dispatcher,yog/loader,yog/plugins,yog/recv-reload YOG_DEBUG=true node app.js",
     "build": "build.js",
     "start": "set PORT=8099 & ./node_modules/yog2/bin/yog2 -v ",
-    "runservice": " ./node_modules/pm2/bin/pm2 ./app.js"
+    "runservice": "./node_modules/pm2/bin/pm2 start ecosystem.config.js --only ldap"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "debuglog": "1.0.1",
+    "mysql": "^2.13.0",
     "pm2": "^2.4.2",
     "yog2": "^1.5.5",
     "yog2-kernel": "1.8.1"
