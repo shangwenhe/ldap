@@ -1,0 +1,26 @@
+{
+  "name": "ldap",
+  "version": "1.0.0",
+  "description": "ldap 公司域服务系统",
+  "main": "index.js",
+  "scripts": {
+    "test": "test.js",
+    "debug-win": "set NODE_DEBUG=yog/dispatcher,yog/loader,yog/plugins,yog/recv-reload&set YOG_DEBUG=true&node app.js",
+    "debug": "env NODE_DEBUG=yog/dispatcher,yog/loader,yog/plugins,yog/recv-reload YOG_DEBUG=true node app.js",
+    "build": "build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.xiaodutv.com:xiaodufe/ldap.git"
+  },
+  "keywords": [
+    "ladp"
+  ],
+  "author": "shangwenhe@itv.baidu.com",
+  "license": "ISC",
+  "dependencies": {
+    "yog2": "^1.5.5",
+    "debuglog": "1.0.1",
+    "yog2-kernel": "1.8.1"
+  }
+}
