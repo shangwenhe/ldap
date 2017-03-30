@@ -9,6 +9,7 @@
     "debug": "env NODE_DEBUG=yog/dispatcher,yog/loader,yog/plugins,yog/recv-reload YOG_DEBUG=true node app.js",
     "build": "build.js",
     "start": "export PORT=8100 && ./node_modules/yog2/bin/yog2 run --fis3 ",
+    "start-win": "node ./node_modules/yog2/bin/yog2 run --fis3 ",
     "runservice": "./node_modules/pm2/bin/pm2 start ecosystem.config.js --only ldap"
   },
   "repository": {
