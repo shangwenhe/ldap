@@ -8,7 +8,8 @@
     "debug-win": "set NODE_DEBUG=yog/dispatcher,yog/loader,yog/plugins,yog/recv-reload&set YOG_DEBUG=true&node app.js",
     "debug": "env NODE_DEBUG=yog/dispatcher,yog/loader,yog/plugins,yog/recv-reload YOG_DEBUG=true node app.js",
     "build": "build.js",
-    "start": "set PORT=8099 & ./node_modules/yog2/bin/yog2 -v "
+    "start": "set PORT=8099 & ./node_modules/yog2/bin/yog2 -v ",
+    "runservice": " ./node_modules/pm2/bin/pm2 ./app.js"
   },
   "repository": {
     "type": "git",
