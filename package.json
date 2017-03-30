@@ -7,7 +7,8 @@
     "test": "test.js",
     "debug-win": "set NODE_DEBUG=yog/dispatcher,yog/loader,yog/plugins,yog/recv-reload&set YOG_DEBUG=true&node app.js",
     "debug": "env NODE_DEBUG=yog/dispatcher,yog/loader,yog/plugins,yog/recv-reload YOG_DEBUG=true node app.js",
-    "build": "build.js"
+    "build": "build.js",
+    "start": "set PORT=8099 & ./node_modules/yog2/bin/yog2 -v "
   },
   "repository": {
     "type": "git",
@@ -19,8 +20,9 @@
   "author": "shangwenhe@itv.baidu.com",
   "license": "ISC",
   "dependencies": {
-    "yog2": "^1.5.5",
     "debuglog": "1.0.1",
+    "pm2": "^2.4.2",
+    "yog2": "^1.5.5",
     "yog2-kernel": "1.8.1"
   }
 }
