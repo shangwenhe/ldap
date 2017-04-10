@@ -12,14 +12,14 @@ module.exports = function(router){
 
     // a restful api example
     router.route('/book')
-        // PUT /main/book
+        // PUT /common/book
         .put(router.action('book').put)
-        // GET /main/book
+        // GET /common/book
         .get(router.action('book'));
 
     router.route('/book/:id')
-        // GET /main/book/1
+        // GET /common/book/1
         .get(router.action('book').get)
-        // DELETE /main/book/1
+        // DELETE /common/book/1
         .delete(router.action('book').delete);
 };

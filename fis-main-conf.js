@@ -7,7 +7,8 @@
 /* eslint-disable */
 fis.match('*', {
     deploy: fis.plugin('http-push', {
-        receiver: 'http://newldap.xiaodutv.com/yog/upload',
+        // receiver: 'http://newldap.xiaodutv.com/yog/upload',
+        receiver: 'http://127.0.0.1:8100/yog/upload',
         to: '/'
     })
 });
