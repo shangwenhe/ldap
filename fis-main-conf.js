@@ -5,6 +5,16 @@
  * @description: this is a <js> file
  */
 /* eslint-disable */
+
+fis.match('server/**.jes', {
+    parser: fis.plugin('typescript', {
+        module: 1,
+        target: 2
+    }),
+    rExt: 'js'
+});
+
+
 fis.match('*', {
     deploy: fis.plugin('http-push', {
         // receiver: 'http://newldap.xiaodutv.com/yog/upload',

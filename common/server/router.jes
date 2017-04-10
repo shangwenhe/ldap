@@ -1,0 +1,28 @@
+/**
+ * @file: router.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-10
+ * @description: this is a <jes> file
+ */
+/* eslint-disable */
+
+
+
+
+
+
+export default function(router)  {
+    router.route('/book')
+        // PUT /common/book
+        .put(router.action('book').put)
+        // GET /common/book
+        .get(router.action('book'));
+
+    router.route('/book/:id')
+        // GET /common/book/1
+        .get(router.action('book').get)
+        // DELETE /common/book/1
+        .delete(router.action('book').delete);
+
+};
+/* eslint-enable */
