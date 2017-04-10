@@ -9,6 +9,9 @@
         <link rel="icon" href="/static/favicon.ico">
         <title>{{ title }}</title>
         {% require "common:static/js/jquery-1.10.2.js" %}
+        {% require "common:static/exotic/bootstrap-3.3.7-dist/js/bootstrap.min.js" %}
+        {% require "common:static/exotic/bootstrap-3.3.7-dist/css/bootstrap.min.css" %}
+        {% require "common:static/exotic/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" %}
     {% endhead %}
 
     {% body %}

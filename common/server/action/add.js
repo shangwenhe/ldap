@@ -5,6 +5,9 @@
  * @description: this is a <js> file
  */
 /* eslint-disable */
+
+require('../model/user/add.js');
+
 module.exports = function(req, res){
     res.send('book add');
 };
