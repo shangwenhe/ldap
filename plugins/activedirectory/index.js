@@ -6,8 +6,7 @@
  */
 /* eslint-disable */
 var ActiveDirectory = require('activedirectory');
-module.exports = function(app, conf){
-
+module.exports.activedirectory = function(app, conf) {
     return {
         ad: new ActiveDirectory(conf)
     }
