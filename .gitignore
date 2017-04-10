@@ -37,3 +37,7 @@ node_modules
 
 # headdump
 *.heapsnapshot
+/app
+/conf/fis
+/static
+/views
