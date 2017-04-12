@@ -1,0 +1,31 @@
+/**
+ * @file: delete.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-11
+ * @description: this is a <jes> file
+ */
+/* eslint-disable */
+import AD from '../ldapbase';
+class modelUserDelete extends AD {
+
+    // 删除用户
+    samid(userinfo, callback) {
+        let client = this.createClient();
+        client.del(userinfo.dn, function(err, info) {
+            if(err){
+                callback({
+                    errno: 40408,
+                    msg: 'delete user error'
+                });
+                return; 
+            }
+            callback(null, {
+                info: userinfo
+            });
+        });
+    }
+
+}
+
+export default new modelUserDelete;
+/* eslint-enable */

@@ -6,9 +6,18 @@
  */
 /* eslint-disable */
 
-require('../model/user/add.js');
 
-module.exports = function(req, res){
-    res.send('book add');
+import serviceUser from '../service/user';
+
+export function get(req, res){
+
+    let { username, groupname } = req.params;
+    serviceUser.addUserForGroup(username, groupname , function(err, data){
+        // 保持接口统一
+        if(err){ data = err; }
+        res.json(data.info || '', data.errno, data.msg);
+
+
+    });
 };
 /* eslint-enable */

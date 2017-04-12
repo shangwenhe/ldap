@@ -5,7 +5,6 @@
  * @description: this is a <js> file
  */
 /* eslint-disable */
-module.exports = {
-
-};
+import AD from '../ldapbase';
+class modelGroupDelete extends AD {}
 /* eslint-enable */

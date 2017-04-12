@@ -5,7 +5,42 @@
  * @description: this is a <js> file
  */
 /* eslint-disable */
-module.exports = function(req, res){
-    res.send('book delete');
+
+import serviceUser from '../service/user';
+
+export function get(req, res) {
+    if (!req.params.username) {
+        res.json('', 40407, 'not empty username; error');
+        return;
+    }
+    let { username } = req.params;
+
+    serviceUser.delUserBySamid(username, function(err, info) {
+        if (err) {
+            info = err;
+        }
+        res.json(info.info || '', 0, info.msg);
+    });
 };
+export function group(req, res){
+
+    if (!req.params.username) {
+        res.json('', 40407, 'not empty username; error');
+        return;
+    }
+    if (!req.params.groupname) {
+        res.json('', 40410, 'not empty username; error');
+        return;
+    }
+    let { username, groupname } = req.params;
+    
+    serviceUser.delUserForGroup(username, groupname, function(err, info){
+        if (err) {
+            info = err;
+        }
+        res.json(info.info || '', 0, info.msg);
+    
+    });
+
+}
 /* eslint-enable */

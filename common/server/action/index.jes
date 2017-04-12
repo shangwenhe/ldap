@@ -1,3 +1,10 @@
+/**
+ * @file: index.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-10
+ * @description: this is a <jes> file
+ */
+
 
 module.exports = function(req, res){
     res.render('common/page/index.tpl',{} );

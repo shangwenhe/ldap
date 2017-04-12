@@ -1,0 +1,25 @@
+/**
+ * @file: index.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-11
+ * @description: this is a <jes> file
+ */
+/* eslint-disable */
+
+
+import modelUserAdd from './user/add';
+import modelUserQuery from './user/query';
+import modelUserModify from './user/modify';
+import modelUserDelete from './user/delete';
+
+
+
+import modelGroupAdd from './group/add';
+import modelGroupQuery from './group/query';
+import modelGroupModify from './group/modify';
+import modelGroupDelete from './group/delete';
+
+export {
+    modelUserAdd, modelUserQuery, modelUserModify, modelUserDelete, modelGroupAdd, modelGroupQuery, modelGroupModify, modelGroupDelete
+}
+/* eslint-enable */

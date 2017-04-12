@@ -1,0 +1,95 @@
+/**
+ * @file: user.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-11
+ * @description: this is a <jes> file
+ */
+/* eslint-disable */
+import * as actived from '../model/';
+import async from 'async';
+
+class serviceUser {
+    addUserForGroup(username, groupname, callback) {
+        // 添加用户
+        async.waterfall([
+            (callback) => {
+                // 验证组是否存在 
+                actived.modelGroupQuery.name(groupname, callback)
+            }, (groups, callback) => {
+                let group = groups.groups[0];
+                // 验证组内是否存在当前用户
+                actived.modelUserQuery.fromGroup(username, group.dn, function(err, info) {
+                    if (info) {
+                        info.errno = 40406;
+                        info.msg = 'user exist';
+                    }
+                    // 交换变量，如果用户不存在时则添加
+                    callback(info, groups.groups);
+                })
+            }, (data, callback) => {
+
+                actived.modelUserAdd.forGroup(username, data[0]['dn'], callback)
+                    // 用户不存在则添加用户
+                    //callback(null, {
+                    //    info: 'adduser'
+                    //})
+            }
+        ], callback)
+    }
+    delUserForGroup(username, groupname, callback) {
+    
+        async.waterfall([
+            (callback) => {
+                // 验证组是否存在 
+                actived.modelGroupQuery.name(groupname, callback)
+            }, (groups, callback) => {
+                let group = groups.groups[0];
+                // 验证组内是否存在当前用户
+                actived.modelUserQuery.fromGroup(username, group.dn, function(err, info) {
+                    if (err) {
+                        callback({
+                            errno: 40412,
+                            msg: 'find user error'
+                        });
+                        return;
+                    }
+                    if (!info) {
+                        callback({
+                            errno: 40411,
+                            msg: 'user no-exist'
+                        });
+                        return;
+                    }
+                    callback(err, info['users'][0]);
+                })
+            }, (data, callback) => {
+                actived.modelUserDelete.samid(data, callback);
+            }], callback );
+    
+    
+    }
+    delUserBySamid(samid, callback) {
+        async.waterfall([
+            (callback) => {
+                actived.modelUserQuery.fromRoot(samid, function(err, info){
+                    if(!info){
+                        callback({
+                            errno: 40407,
+                            msg: 'user no-exist'
+                        });
+                        return;
+                    }
+                    callback(err, info);
+                });
+            },
+            (userinfo, callback) =>{
+                actived.modelUserDelete.samid(userinfo, callback);
+            }
+        ], callback );
+    }
+
+}
+
+export default new serviceUser;
+
+/* eslint-enable */

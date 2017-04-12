@@ -6,10 +6,10 @@
  */
 /* eslint-disable */
 
-fis.match('server/**.jes', {
-    parser: fis.plugin('typescript', {
-        module: 1,
-        target: 2
+fis.match('**.jes', {
+    parser: fis.plugin('babel-5.x', {
+        blacklist: ['regenerator'],
+        stage: 3
     }),
     rExt: 'js'
 });

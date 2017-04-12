@@ -1,55 +1,53 @@
 /**
- * @file: query.js
+ * @file: query.jes
  * @author: shangwenhe@itv.baidu.com
- * @date: 2017-04-10
- * @description: this is a <js> file
+ * @date: 2017-04-11
+ * @description: this is a <jes> file
  */
 /* eslint-disable */
-
 import AD from '../ldapbase';
+class modelGroupQuery extends AD {
 
-class modelUserQuery extends AD {
+    name (groupname, callback) {
 
-    fromGroup(username, domain, callback) {
         let client = this.createClient();
         var opts = {
-            filter: '(&(objectCategory=person)(sAMAccountName=' + decodeURIComponent(username) + '))',
+            filter: '(&(ou=' + decodeURIComponent(groupname) + '))',
             scope: 'sub',
-            // attributes: ['dn', 'objectCategory', 'ou', 'displayName', 'mail', 'sAMAccountName']
+            attributes: ['dn', 'objectCategory', 'ou']
         };
 
-        client.search(domain, opts, function(err, res) {
+        client.search('dc=xiaodutv,dc=com', opts, function(err, res) {
+
             let results = [];
             res.on('searchEntry', function(entry) {
                 results.push(entry.object);
             });
             res.on('error', function(err) {
+                client.unbind();
                 callback({
-                    errno: 40405,
-                    msg: 'find user error',
+                    errno: 40401,
+                    msg: 'find group error',
                 });
             });
             res.on('end', function(result) {
+                client.unbind();
                 if (result.status || !results.length) {
                     callback({
-                        errno: 40404,
-                        msg: 'user non-existent',
+                        errno: 40402,
+                        msg: 'group non-existent',
                     });
                     return;
                 }
                 callback(null, {
                     errno: 0,
                     msg: '',
-                    users: results
+                    groups: results
                 });
             });
         });
-    };
-
-    fromRoot(username, callback) {
-        this.findUser(username, callback);
     }
 }
 
-export default new modelUserQuery;
+export default new modelGroupQuery;
 /* eslint-enable */

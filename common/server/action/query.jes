@@ -6,9 +6,21 @@
  */
 /* eslint-disable */
 
-module.exports = function(req, res) {
 
-    var ad = yog.plugins.activedirectory.ad;
+import * as actived from '../model/'
+
+export function get (req, res){
+
+    let ad = actived.modelUserQuery;
+    // ad.findUser(req.params.username, function(err, info){
+    ad.fromGroup(req.params.username,'dc=xiaodutv,dc=com', function(err, info){
+        console.log(err, info)
+        res.send(JSON.stringify(info));
+    });
+}
+
+export function test (req, res) {
+
     ad.findUser('wangxiaohan', function(err, user) {
         console.log(JSON.stringify(user));
         res.send(JSON.stringify(user));

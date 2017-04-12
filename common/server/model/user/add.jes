@@ -7,37 +7,43 @@
 /* eslint-disable */
 // https://github.com/gheeres/node-activedirectory
 
+import AD from '../ldapbase';
 
-var ActiveDirectory = require('activedirectory');
-var config = {
-    url: 'ldap://172.18.20.239',
-    baseDN: 'OU=xiaodutv,DC=xiaodutv,DC=com',
-    username: 'testbyshangwenhe',
-    password: 'UMyygyisk!1'
+
+class modelUserAdd extends AD {
+
+    forGroup(username, domain, callback) {
+        let client = this.createClient();
+
+        // var entry = {
+        //     cn: username,
+        //     sAMAccountName : username,
+        //     objectclass: 'person',
+        //     // userpassword: '12W@WRRS54s',
+        //     // email: username 
+        // }
+        var entry = {
+            'cn' : "roshan1",
+            'givenName' : "mkljl",
+            'sn' : "roshan",
+            'objectClass' : "person",
+            'mail' : "lkl@xiaodutv.com"
+        }
+
+        // client.add(domain, entry, function(err) {
+        //     callback(null, {
+        //         info: { err, domain, entry}
+        //     });
+        // });
+        client.add(domain, entry, function(err, info) {
+            console.log(err, info)
+             callback(null, {
+                 info: { err, domain, entry}
+             });
+        });
+        // client.bind(this.opts.username, this.opts.password, function(err, info) {
+        // });
+    }
 }
-var ad = new ActiveDirectory(config);
-
-ad.findUser('shangwenhe', function(err, user) {
-    console.log(err, user);
-})
-
-
-
-username = 'shangwenhe@itv.baidu.com';
-password = 'UMyygyisk!1';
-
-ad.authenticate(username, password, function(err, auth) {
-    if (err) {
-        console.log('ERROR: ' + JSON.stringify(err));
-        return;
-    }
-
-    if (auth) {
-        console.log('Authenticated!');
-    } else {
-        console.log('Authentication failed!');
-    }
-});
-
-
+export default new modelUserAdd;
 /* eslint-enable */
