@@ -9,7 +9,7 @@
 
 import * as actived from '../model/'
 
-export function get (req, res){
+export function user (req, res){
 
     // 从根上取得所有数据
     let ad = actived.modelUserQuery;
@@ -17,20 +17,7 @@ export function get (req, res){
         res.json(info);
     });
 }
-
-export function test (req, res) {
-
-    ad.authenticate('shangwenhe@xiaodutv.com', 'UMyygyisk!1', function(err, auth) {
-        if (err) {
-            console.log('ERROR: ' + JSON.stringify(err));
-            return;
-        }
-
-        if (auth) {
-            console.log('Authenticated!');
-        } else {
-            console.log('Authentication failed!');
-        }
-    });
-};
+export function group(req, res){
+    res.json({})
+}
 /* eslint-enable */

@@ -9,7 +9,7 @@
 
 import serviceUser from '../service/user';
 
-export function get(req, res){
+export function user(req, res){
 
     let { username, groupname } = req.params;
     serviceUser.addUserForGroup(username, groupname , function(err, data){
@@ -20,4 +20,8 @@ export function get(req, res){
 
     });
 };
+
+export function group(req, res){
+    res.json({})
+}
 /* eslint-enable */

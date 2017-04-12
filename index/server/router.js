@@ -11,7 +11,7 @@ module.exports = function(router){
     // router.get('/some/:user', function(res, req){});
 
     // a restful api example
-    router.route('/book')
+    router.route('/')
         // PUT /index/book
         .put(router.action('book').put)
         // GET /index/book

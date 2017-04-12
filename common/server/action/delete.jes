@@ -8,7 +8,7 @@
 
 import serviceUser from '../service/user';
 
-export function get(req, res) {
+export function user(req, res) {
     if (!req.params.username) {
         res.json('', 40407, 'not empty username; error');
         return;
@@ -22,7 +22,7 @@ export function get(req, res) {
         res.json(info.info || '', 0, info.msg);
     });
 };
-export function group(req, res){
+export function userOfGroup(req, res){
 
     if (!req.params.username) {
         res.json('', 40407, 'not empty username; error');
@@ -42,5 +42,8 @@ export function group(req, res){
     
     });
 
+}
+export function group(req, res){
+    res.json({})
 }
 /* eslint-enable */

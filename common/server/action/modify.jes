@@ -5,7 +5,10 @@
  * @description: this is a <js> file
  */
 /* eslint-disable */
-export function get(req, res){
+export function user(req, res){
     res.send('book modify');
 };
+export function group(req, res){
+    res.json({})
+}
 /* eslint-enable */
