@@ -15,7 +15,7 @@ class modelUserQuery extends AD {
         var opts = {
             filter: '(&(objectCategory=person)(sAMAccountName=' + decodeURIComponent(username) + '))',
             scope: 'sub',
-            // attributes: ['dn', 'objectCategory', 'ou', 'displayName', 'mail', 'sAMAccountName']
+            attributes: ['dn', 'objectCategory', 'ou', 'displayName', 'mail', 'sAMAccountName']
         };
 
         client.search(domain, opts, function(err, res) {
