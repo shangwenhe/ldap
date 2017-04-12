@@ -47,7 +47,24 @@ class modelUserQuery extends AD {
     };
 
     fromRoot(username, callback) {
-        this.findUser(username, callback);
+        this.findUser(username, function(err, data){
+          
+            if(err){
+                callback(err);
+                return;
+            }
+            // 取出部门OU的内容
+            var dept = new Set(data.dn.split(',').filter(function(e) {
+                return (e.toLocaleLowerCase().indexOf('ou=') > -1);
+            }).map(function(e) {
+                return e.replace(/\w*=/, '')
+
+            }));
+            callback(err, Object.assign({
+                dept: [ ...dept ]
+            },data));
+
+        });
     }
 }
 

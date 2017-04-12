@@ -11,23 +11,15 @@ import * as actived from '../model/'
 
 export function get (req, res){
 
+    // 从根上取得所有数据
     let ad = actived.modelUserQuery;
-    // ad.findUser(req.params.username, function(err, info){
-    ad.fromGroup(req.params.username,'dc=xiaodutv,dc=com', function(err, info){
-        console.log(err, info)
-        res.send(JSON.stringify(info));
+    ad.fromRoot(req.params.username, function(err, info){
+        res.json(info);
     });
 }
 
 export function test (req, res) {
 
-    ad.findUser('wangxiaohan', function(err, user) {
-        console.log(JSON.stringify(user));
-        res.send(JSON.stringify(user));
-    });
-    ad.userExists('panchunlei', function(err, user) {
-        console.log(JSON.stringify(user));
-    });
     ad.authenticate('shangwenhe@xiaodutv.com', 'UMyygyisk!1', function(err, auth) {
         if (err) {
             console.log('ERROR: ' + JSON.stringify(err));
@@ -40,11 +32,5 @@ export function test (req, res) {
             console.log('Authentication failed!');
         }
     });
-
-    // dsquery ou domainroot -name '战略投资部'
-    ad.findGroup('xiaodu-wiki',function(err, groups){
-        console.log(err, groups, '======') ;
-    })
-
 };
 /* eslint-enable */
