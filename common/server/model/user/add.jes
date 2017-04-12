@@ -12,9 +12,8 @@ import AD from '../ldapbase';
 
 class modelUserAdd extends AD {
 
-    forGroup(username, domain, callback) {
-        let client = this.createClient();
-
+    forGroup(addusername, domain, callback) {
+        // let client = this.createClient();
         // var entry = {
         //     cn: username,
         //     sAMAccountName : username,
@@ -22,28 +21,52 @@ class modelUserAdd extends AD {
         //     // userpassword: '12W@WRRS54s',
         //     // email: username 
         // }
-        var entry = {
-            'cn' : "roshan1",
-            'givenName' : "mkljl",
-            'sn' : "roshan",
-            'objectClass' : "person",
-            'mail' : "lkl@xiaodutv.com"
-        }
-
         // client.add(domain, entry, function(err) {
         //     callback(null, {
         //         info: { err, domain, entry}
         //     });
         // });
-        client.add(domain, entry, function(err, info) {
-            console.log(err, info)
-             callback(null, {
-                 info: { err, domain, entry}
-             });
-        });
-        // client.bind(this.opts.username, this.opts.password, function(err, info) {
-        // });
+
+
+        /**
+         * 执行脚本进行添加
+         */
+        var params = {
+             samid: addusername,
+             dept:'技术平台1部',
+             pwd: '123$34ewewe#2345',
+             tel: '',
+             email: '',
+             fn: '',
+             ln:'',
+             title : '',
+        }
+
+        let { username, password } = this.opts ;
+
+        let CMDparams = Object.assign({}, {
+            display: params.samid,
+            u: username,
+            p: password,
+            upn: params.email,
+            mustchpwd: 'no',
+            desc: params.fn + params.ln
+        }, params)
+
+        var cmd = 'dsadd user "CN='+CMDparams.display+',OU='+CMDparams.dept+',OU=xiaodutv,DC=xiaodutv,DC=com" -q ';
+        for (let key of Object.keys(CMDparams)) {
+            cmd += ' -' + key + ' "' + CMDparams[key] + '"';
+        }
+
+        callback(null, {
+            info: {
+                CMDparams,
+                cmd,
+                domain
+            }
+        })
     }
 }
-export default new modelUserAdd;
+export
+default new modelUserAdd;
 /* eslint-enable */
