@@ -1,0 +1,9 @@
+/**
+ * @file: layout.css
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-12
+ * @description: this is a <css> file
+ */
+:focus {
+        outline: none;
+    }

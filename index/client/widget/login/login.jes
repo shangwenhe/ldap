@@ -1,0 +1,31 @@
+/**
+ * @file: login.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-12
+ * @description: this is a <jes> file
+ */
+/* eslint-disable */
+
+$('#loginModal').on('click','#submit[data-state=false]', function() {
+    //$(this).attr('data-state', true);
+    let [username, password, remember] = [
+        $('#inputEmail').val(),
+        $('#inputPassword').val(),
+        $('#remember:checked').length
+    ];
+
+    $.ajax({
+        url: '/common/uauthe/' + username,
+        type: 'POST',
+        data: {
+            username,
+            password,
+            remember
+        },
+        success: (data) => {
+            console.log(data);
+            // $(this).attr('data-state', false);
+        }
+    })
+});
+/* eslint-enable */

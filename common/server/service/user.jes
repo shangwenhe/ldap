@@ -87,6 +87,36 @@ class serviceUser {
             }
         ], callback );
     }
+    authen(username, body, callback){
+        async.waterfall([
+            (callback) => {
+                actived.modelUserQuery.fromRoot(username, function(err, info) {
+                    if (!info) {
+                        callback({
+                            errno: 40407,
+                            msg: 'user no-exist'
+                        });
+                        return;
+                    }
+                    callback(err, info);
+                });
+            }, (userinfo, callback) => {
+                actived.modelUserQuery.authen(username, body.password, function(err, info){
+                    if(err){
+                        callback(err);
+                        return;
+                    }
+
+                    let { cn, dept, displayName, mail } = userinfo;
+                    callback(null, Object.assign({}, info, {
+                        info: {
+                            cn, dept, displayName, mail
+                        }
+                    }))
+                });
+            }
+        ], callback)
+    }
 
 }
 

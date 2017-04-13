@@ -1,0 +1,43 @@
+/**
+ * @file: authenticate.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-12
+ * @description: this is a <jes> file
+ */
+/* eslint-disable */
+
+import serviceUser from '../service/user';
+import serviceAuthenticate from '../service/authenticate';
+
+export function get(req, res){
+    res.json({}, 40412, 'used post type');
+}
+
+export function post(req, res){
+    let { username } = req.params;
+    let { remember } = req.body;
+    serviceUser.authen(username, req.body, function(err, data){
+        if(err){ data = err; }
+        if(data.errno === 0){
+            // 生成盐
+            let salt = serviceAuthenticate.sha1(undefined, 15);
+
+            // 解密时使用
+            let cookieval= serviceAuthenticate.cipher(JSON.stringify(data), salt);
+            let saltPos = Math.floor(Math.random()*cookieval.length);
+
+            // cookie有效期
+            let day = remember == 1 ? 21 : 7;
+            res.cookie('INNERUSS', serviceAuthenticate.cipherWithSalt(cookieval, salt, saltPos),{
+                domain: 'xiaodutv.com',
+                expires: new Date((new Date()).valueOf() + 1000 * 60 * 60 * 24 * day),
+                path: '/'
+            });
+            // decode cookie
+            // serviceAuthenticate.decipherCookie(req.cookies.INNERUSS); 
+
+        }
+        res.json(data.info || '', data.errno, data.msg);
+    })
+}
+/* eslint-enable */

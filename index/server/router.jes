@@ -1,0 +1,21 @@
+/**
+ * @file: router.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-12
+ * @description: this is a <jes> file
+ */
+
+export default  function(router){
+
+
+    
+    // a restful api example
+     router.get('/', router.action('wellcome').get);
+     router.post('/', router.action('wellcome').post);
+
+     // router.get('/login', router.action('login').get);
+     // router.post('/login', router.action('login').post);
+
+     // router.get('/logout', router.action('logout').get);
+     // router.post('/logout', router.action('logout').post);
+};

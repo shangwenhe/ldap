@@ -45,6 +45,14 @@ export default function(router) {
     // 修改用户
     router.get('/umodify/:username', router.action('modify').user);
 
+    // 用户认证
+    router.post('/uauthe/:username', router.action('authenticate').post);
+    router.get('/uauthe/:username', router.action('authenticate').get);
+
+
+
+
+
     /**
      * 组相关操作路由
      * **/

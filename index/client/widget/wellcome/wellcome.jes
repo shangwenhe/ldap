@@ -1,0 +1,11 @@
+/**
+ * @file: wellcome.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-12
+ * @description: this is a <jes> file
+ */
+/* eslint-disable */
+module.exports = {
+
+};
+/* eslint-enable */

@@ -53,6 +53,13 @@ class modelUserQuery extends AD {
                 callback(err);
                 return;
             }
+            if(!data){
+                callback({
+                    errno: 40404,
+                    msg: 'user non-existent',
+                });
+                return;
+            }
             // 取出部门OU的内容
             var dept = new Set(data.dn.split(',').filter(function(e) {
                 return (e.toLocaleLowerCase().indexOf('ou=') > -1);
@@ -65,6 +72,23 @@ class modelUserQuery extends AD {
             },data));
 
         });
+    }
+    authen(username, password, callback){
+        this.authenticate(username+'@xiaodutv.com',password, function(err, info){
+            if(err){
+                callback({
+                    info:'',
+                    errno: 40413,
+                    msg: 'password error'
+                }) 
+                return;
+            }
+            callback(err, {
+                info: {},
+                errno: 0,
+                msg: 'authenticate OK'
+            }) 
+        })
     }
 }
 
