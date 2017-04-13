@@ -18,13 +18,11 @@
                 <div class="modal-body">
                         <div class="form-group">
                             <label for="inputEmail">登录用户名@xiaodutv.com</label>
-                            <input type="email" class="form-control" id="inputEmail"
-                            placeholder="Email" value='shangwenhe'>
+                            <input type="email" class="form-control" id="inputEmail" placeholder="用户名">
                         </div>
                         <div class="form-group">
                             <label for="inputPassword">用户密码</label>
-                            <input type="password" class="form-control" id="inputPassword"
-                            placeholder="Password" value='UMyygyisk!1'>
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
                         </div>
                         <div class="checkbox">
                             <label>

@@ -28,4 +28,19 @@ $('#loginModal').on('click','#submit[data-state=false]', function() {
         }
     })
 });
+
+let alertWarning = __inline('./login.tmpl');
+$('#inputEmail').on('keyup',function(){
+    
+    let value = $(this).val();
+    if(value.indexOf('@') > -1 && $('#alertWarning').length < 1){
+        $('#loginModal .modal-body').prepend(alertWarning({info:'<strong>Warning!</strong> 输入邮箱前缀即可'}));
+    }
+    if(value.indexOf('_vd') > -1 && $('#alertWarning').length < 1){
+        $('#loginModal .modal-body').prepend(alertWarning({info:'<strong>Warning!</strong> 使用小度帐号不再使用百度的_vd帐号'}));
+    }
+    if(value.indexOf('@') == -1 && value.indexOf('_vd') == -1 && $('#alertWarning').length > 0){
+        $('#alertWarning').alert('close');
+    }
+});
 /* eslint-enable */

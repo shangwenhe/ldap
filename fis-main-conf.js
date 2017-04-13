@@ -14,6 +14,13 @@ fis.match('**.jes', {
     rExt: 'js'
 });
 
+fis.match('**.tmpl', {
+    parser: fis.plugin('utc', {
+        variable: 'data'
+    }),
+    isJsLike: true,
+    release: false
+});
 
 fis.match('*', {
     deploy: fis.plugin('http-push', {
