@@ -19,7 +19,12 @@ import modelGroupQuery from './group/query';
 import modelGroupModify from './group/modify';
 import modelGroupDelete from './group/delete';
 
+
+import modelMysqlQuery from './mysql/query';
+
 export {
-    modelUserAdd, modelUserQuery, modelUserModify, modelUserDelete, modelGroupAdd, modelGroupQuery, modelGroupModify, modelGroupDelete
+    modelUserAdd, modelUserQuery, modelUserModify, modelUserDelete, 
+    modelGroupAdd, modelGroupQuery, modelGroupModify, modelGroupDelete,
+    modelMysqlQuery
 }
 /* eslint-enable */

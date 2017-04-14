@@ -1,0 +1,15 @@
+/**
+ * @file: mysql.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-14
+ * @description: this is a <jes> file
+ */
+/* eslint-disable */
+module.exports.mysqlConf = {
+    host: '172.18.20.237',
+    user: 'ldap',
+    password: 'Ldap!1',
+    database: 'TD_OA',
+    port: 3336
+};
+/* eslint-enable */

@@ -8,8 +8,8 @@
 
 import AD from '../ldapbase';
 
-class modelUserQuery extends AD {
 
+class modelUserQuery extends AD {
     fromGroup(username, domain, callback) {
         let client = this.createClient();
         var opts = {

@@ -61,7 +61,6 @@ class serviceAuthenticate {
 let serviceAuthen = new serviceAuthenticate;
 
 module.exports.xduuap = function(app, {path, query, protocol, server}) {
-    
     return function() {
         app.use(function(req, res, next) {
             let url = req.protocol + '://' + req.get('host') + req.originalUrl;

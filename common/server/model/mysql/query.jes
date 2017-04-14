@@ -1,0 +1,45 @@
+/**
+ * @file: query.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-14
+ * @description: this is a <jes> file
+ */
+/* eslint-disable */
+import db from 'node-mysql';
+import cps from 'cps';
+
+
+class modelMysqlQuery {
+
+    constructor(){
+
+        this.BaseRow = db.Row;
+        this.BaseTable = db.Table;
+
+        this.box = new db.DB({
+            host: '172.18.20.237',
+            user: 'ldap',
+            password: 'Ldap!1',
+            database: 'TD_OA',
+            port: 3336
+        });
+        
+    }
+    fromErp(username, callback) {
+
+        this.box.connect(function(conn, callback) {
+            cps.seq([
+                function(_, callback) {
+                    conn.query('SELECT user.byname, hr_staff_info.staff_card_no, hr_staff_info.staff_phone,hr_staff_info.staff_mobile,user.email from user,hr_staff_info WHERE user.USER_ID=hr_staff_info.USER_ID and user.BYNAME=\'' + username + '\'', callback);
+                },
+                function(res, callback) {
+                    callback(null, res[0]);
+                }
+            ], callback);
+        }, function(err, data) {
+            callback(err, data);
+        })
+    }
+}
+export default new modelMysqlQuery;
+/* eslint-enable */

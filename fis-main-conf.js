@@ -22,10 +22,10 @@ fis.match('**.tmpl', {
     release: false
 });
 
-fis.media('debug').match('*', {
+fis.match('*', {
     deploy: fis.plugin('http-push', {
         // receiver: 'http://newldap.xiaodutv.com/yog/upload',
-        receiver: 'http://127.0.0.1:8100/yog/upload',
+        receiver: 'http://uuap.xiaodutv.com/yog/upload',
         to: '/'
     })
 });
