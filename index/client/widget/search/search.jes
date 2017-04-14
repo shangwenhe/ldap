@@ -28,16 +28,19 @@ $('#search').on('click', function() {
         data: {
             username
         },
+        beforeSend: function(){
+            let loading = __uri('./loading.gif');
+
+            $('.user-info').html('<div class="panel panel-default"> <div class="panel-body"><img class=\'loading\' src=\''+loading+'\'/></div></div>');
+        },
         success: function(data) {
             $('.user-info').html(search({
-                username: data.cn,
-                displayName: data.displayName,
-                mail: data.mail,
-
-                dept: data.dept[0],
-                dn: data.dn,
-
-                telphone: data.telphone
+                username: data.adinfo.cn,
+                displayName: data.adinfo.displayName,
+                mail: [ data.adinfo.mail, data.erpinfo.email ].join(','),
+                dept: data.adinfo.dept[0],
+                dn: data.adinfo.dn,
+                telphone: data.erpinfo.staff_phone
             }));
         }
     })
