@@ -6,19 +6,11 @@
  */
 /* eslint-disable */
 
-
-
-
-
-
 export default function(router) {
 
-
     router.use((req, res, next) => {
-
         let oldJSONP = res.jsonp.bind(res);
         let startTime = Date.now();
-
         res.json =  function(data, errno = 0, msg = '') {
             let responseTime = Date.now() - startTime;
             oldJSONP({
@@ -35,10 +27,13 @@ export default function(router) {
      * **/
     // 查询用户
     router.get('/uquery/:username', router.action('query').user);
+
     // 添加用户
     router.get('/uadd/:username/:groupname', router.action('add').user);
+
     // 删除用户
     router.get('/udelete/:username', router.action('delete').user);
+    
     // 删除指定组下的用户
     router.get('/udelete/:username/:groupname', router.action('delete').userOfGroup);
 
@@ -49,20 +44,19 @@ export default function(router) {
     router.post('/uauthe/:username', router.action('authenticate').post);
     router.get('/uauthe/:username', router.action('authenticate').get);
 
-
-
-
-
     /**
      * 组相关操作路由
      * **/
     
     // 查询组
     router.get('/gquery/:groupname', router.action('query').group);
+
     // 添加组
     router.get('/gadd/:groupname/:parentname', router.action('add').group);
+
     // 删除组
     router.get('/gdelete/:groupname/:parentname', router.action('delete').group);
+
     // 修改组
     router.get('/gmodify/:groupname', router.action('modify').group);
 

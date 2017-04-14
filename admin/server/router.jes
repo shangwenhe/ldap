@@ -4,7 +4,7 @@
  * @date: 2017-04-14
  * @description: this is a <jes> file
  */
-exports function(router){
+export default function(router){
 
     // router.get('/some/:user', router.action('api'));
     
