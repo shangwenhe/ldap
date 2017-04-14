@@ -34,13 +34,19 @@ $('#search').on('click', function() {
             $('.user-info').html('<div class="panel panel-default"> <div class="panel-body"><img class=\'loading\' src=\''+loading+'\'/></div></div>');
         },
         success: function(data) {
+            if(data.errno != 0){
+                $('.user-info').html('<div style="margin-top:30px" class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <span class="sr-only">Error:</span>'+
+                    '查询域用户出错，请使用全拼搜索'+
+                    '</div>');
+                return;
+            }
             $('.user-info').html(search({
                 username: data.adinfo.cn,
-                displayName: data.adinfo.displayName,
+                displayName: data.adinfo.description || data.adinfo.displayName,
                 mail: [ data.adinfo.mail, data.erpinfo.email ].join(','),
                 dept: data.adinfo.dept[0],
                 dn: data.adinfo.dn,
-                telphone: data.erpinfo.staff_phone
+                telphone: data.erpinfo.staff_phone || data.erpinfo.staff_mobile
             }));
         }
     })
