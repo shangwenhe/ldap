@@ -1,0 +1,12 @@
+/**
+ * @file: router.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-14
+ * @description: this is a <jes> file
+ */
+exports function(router){
+
+    // router.get('/some/:user', router.action('api'));
+    
+
+};

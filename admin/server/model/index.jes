@@ -1,0 +1,11 @@
+/**
+ * @file: index.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-14
+ * @description: this is a <jes> file
+ */
+module.exports.getData = function(){
+	return {
+		title : 'FIS',
+	};
+};
