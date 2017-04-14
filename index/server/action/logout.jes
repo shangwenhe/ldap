@@ -5,10 +5,15 @@
  * @description: this is a <jes> file
  */
 /* eslint-disable */
-export  function get(req, res){
+export function get(req, res) {
+    res.cookie('INNERUSS', '', {
+        domain: 'xiaodutv.com',
+        expires: new Date((new Date()).valueOf() - 1),
+        path: '/'
+    });
     res.render('index/page/logout.tpl');
 }
-export  function post(req, res){
+export function post(req, res) {
     res.json({});
 }
-/* eslint-enable */
+    /* eslint-enable */

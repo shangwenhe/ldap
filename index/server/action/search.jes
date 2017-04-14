@@ -8,7 +8,13 @@
 export  function get(req, res){
     res.render('index/page/search.tpl');
 }
+
+import * as actived from '../../common/model/'
 export  function post(req, res){
-    res.json({});
+    // 从根上取得所有数据
+    let ad = actived.modelUserQuery;
+    ad.fromRoot(req.body.username, function(err, info){
+        res.json(info);
+    });
 }
 /* eslint-enable */

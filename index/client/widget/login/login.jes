@@ -6,6 +6,8 @@
  */
 /* eslint-disable */
 
+let alertSuccess = __inline('./login.info.tmpl');
+
 $('#loginModal').on('click', '#submit[data-state=false]', function() {
     $(this).attr('data-state', true);
     let [username, password, remember] = [
@@ -24,8 +26,21 @@ $('#loginModal').on('click', '#submit[data-state=false]', function() {
         },
         success: (data) => {
             $(this).attr('data-state', false);
-            let [matched, service] = window.location.href.match(/service=([^&]*)/);
-            window.location.href = decodeURIComponent(service);
+            if (data.errno != 0) {
+                $(this).before(alertSuccess({
+                    info: '<strong>Danger!</strong> ' + data.msg,
+                    type: 'danger'
+                }))
+                return;
+            }
+            $(this).before(alertSuccess({
+                info: '<strong>Success!</strong> 登录成功',
+                type: 'success'
+            }))
+            try {
+                let [matched, service] = window.location.href.match(/service=([^&]*)/);
+                window.location.href = decodeURIComponent(service);
+            } catch (e) {}
         }
     })
 });
@@ -49,9 +64,8 @@ $('#inputEmail').on('keyup', function() {
     }
 });
 $(window).on('keydown', function(e) {
-        console.log(e)
-        if (e.key.toLocaleLowerCase() == 'enter' && e.keyCode == 13) {
-            $('#loginModal #submit[data-state=false]').click();
-        }
-    })
-    /* eslint-enable */
+    if (e.key.toLocaleLowerCase() == 'enter' && e.keyCode == 13) {
+        $('#loginModal #submit[data-state=false]').click();
+    }
+});
+/* eslint-enable */

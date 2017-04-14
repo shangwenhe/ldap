@@ -5,7 +5,50 @@
  * @description: this is a <jes> file
  */
 /* eslint-disable */
-module.exports = {
 
-};
+
+let search = __inline('./search.tmpl');
+
+
+$('.user-info').html(search({
+    username: 'xiaodu',
+    displayName: '小度互娱',
+    mail: 'uuap@itv.baidu.com',
+    dept: 'xiaodutv',
+    dn: 'OU=xiaodutv,DC=xiaodutv,DC=com',
+    telphone: '158XXXXXXXX'
+}));
+
+$('#search').on('click', function() {
+
+    let username = $('#username').val();
+    $.ajax({
+        url: '/search',
+        type: 'POST',
+        data: {
+            username
+        },
+        success: function(data) {
+            $('.user-info').html(search({
+                username: data.cn,
+                displayName: data.displayName,
+                mail: data.mail,
+
+                dept: data.dept[0],
+                dn: data.dn,
+
+                telphone: data.telphone
+            }));
+        }
+    })
+
+});
+
+$(window).on('keydown', function(e) {
+    if (e.key.toLocaleLowerCase() == 'enter' && e.keyCode == 13) {
+        $('#username').blur();
+        $('#search').click();
+    }
+});
+
 /* eslint-enable */
