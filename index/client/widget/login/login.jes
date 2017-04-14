@@ -6,8 +6,8 @@
  */
 /* eslint-disable */
 
-$('#loginModal').on('click','#submit[data-state=false]', function() {
-    //$(this).attr('data-state', true);
+$('#loginModal').on('click', '#submit[data-state=false]', function() {
+    $(this).attr('data-state', true);
     let [username, password, remember] = [
         $('#inputEmail').val(),
         $('#inputPassword').val(),
@@ -23,24 +23,35 @@ $('#loginModal').on('click','#submit[data-state=false]', function() {
             remember
         },
         success: (data) => {
-            console.log(data);
-            // $(this).attr('data-state', false);
+            $(this).attr('data-state', false);
+            let [matched, service] = window.location.href.match(/service=([^&]*)/);
+            window.location.href = decodeURIComponent(service);
         }
     })
 });
 
 let alertWarning = __inline('./login.tmpl');
-$('#inputEmail').on('keyup',function(){
-    
+$('#inputEmail').on('keyup', function() {
+
     let value = $(this).val();
-    if(value.indexOf('@') > -1 && $('#alertWarning').length < 1){
-        $('#loginModal .modal-body').prepend(alertWarning({info:'<strong>Warning!</strong> 输入邮箱前缀即可'}));
+    if (value.indexOf('@') > -1 && $('#alertWarning').length < 1) {
+        $('#loginModal .modal-body').prepend(alertWarning({
+            info: '<strong>Warning!</strong> 输入邮箱前缀即可'
+        }));
     }
-    if(value.indexOf('_vd') > -1 && $('#alertWarning').length < 1){
-        $('#loginModal .modal-body').prepend(alertWarning({info:'<strong>Warning!</strong> 使用小度帐号不再使用百度的_vd帐号'}));
+    if (value.indexOf('_vd') > -1 && $('#alertWarning').length < 1) {
+        $('#loginModal .modal-body').prepend(alertWarning({
+            info: '<strong>Warning!</strong> 使用小度帐号不再使用百度的_vd帐号'
+        }));
     }
-    if(value.indexOf('@') == -1 && value.indexOf('_vd') == -1 && $('#alertWarning').length > 0){
+    if (value.indexOf('@') == -1 && value.indexOf('_vd') == -1 && $('#alertWarning').length > 0) {
         $('#alertWarning').alert('close');
     }
 });
-/* eslint-enable */
+$(window).on('keydown', function(e) {
+        console.log(e)
+        if (e.key.toLocaleLowerCase() == 'enter' && e.keyCode == 13) {
+            $('#loginModal #submit[data-state=false]').click();
+        }
+    })
+    /* eslint-enable */
