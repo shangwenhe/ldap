@@ -22,12 +22,12 @@
   "author": "shangwenhe@itv.baidu.com",
   "license": "ISC",
   "dependencies": {
-    "activedirectory": "^0.7.2",
+    "activedirectory": "0.7.2",
     "crypto": "0.0.3",
     "debuglog": "1.0.1",
-    "mysql": "^2.13.0",
-    "pm2": "^2.4.2",
-    "yog2": "^1.5.5",
+    "mysql": "2.13.0",
+    "pm2": "2.4.2",
+    "yog2": "1.5.5",
     "yog2-kernel": "1.8.1"
   }
 }
