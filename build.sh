@@ -20,4 +20,6 @@ cd output :
 tar czvf ./ldap.tar.gz  ./*
 
 # 删除output内的其他文件
-find ./output/*   -maxdepth 0  -type d  -exec rm -fr {} \;
+find ./*   -maxdepth 0  -type d  -exec rm -fr {} \;
+cd -;
+
