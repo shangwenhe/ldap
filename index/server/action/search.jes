@@ -5,34 +5,38 @@
  * @description: this is a <jes> file
  */
 /* eslint-disable */
-export  function get(req, res){
+export
+function get(req, res) {
     res.render('index/page/search.tpl');
 }
 
 import * as actived from '../../common/model/'
-export  function post(req, res){
-    // 从根上取得所有数据
-    let ad = actived.modelUserQuery;
-    let mysql = actived.modelMysqlQuery;
+export
+function post(req, res) {
+        // 从根上取得所有数据
+        let ad = actived.modelUserQuery;
+        let mysql = actived.modelMysqlQuery;
 
 
-    ad.fromRoot(req.body.username, function(err, info){
-        if(!info || !info.cn){
-            res.json({
-                errno: 40414,
-                msg: 'find AD user info error'
-            });
-            return;
-        }
-        mysql.fromErp(info.cn, function(err, data){
-            let { staff_card_no, ...erpinfo} = data;
-            res.json({
-                errno: 0,
-                msg:'',
-                adinfo: info,
-                erpinfo
+        ad.fromRoot(req.body.username, function(err, info) {
+            if (!info || !info.cn) {
+                res.json({
+                    errno: 40414,
+                    msg: 'find AD user info error'
+                });
+                return;
+            }
+            mysql.fromErp(info.cn, function(err, data) {
+
+                res.json({
+                    errno: 0,
+                    msg: '',
+                    adinfo: info,
+                    erpinfo: Object.assign({}, data, {
+                        staff_card_no: undefined
+                    })
+                });
             });
         });
-    });
-}
-/* eslint-enable */
+    }
+    /* eslint-enable */
