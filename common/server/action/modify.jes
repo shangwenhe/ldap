@@ -14,7 +14,6 @@ export function user(req, res){
     let groupname = req.params.groupname;
     let body = req.body;
     serviceUser.modifyByname(username, groupname, body, function(err, data){
-        console.log(err, data)
         // 保持接口统一
         if(err){ data = err; }
         res.json(data.info || '', data.errno, data.msg);
@@ -27,7 +26,6 @@ export function group(req, res){
     let groupname = req.params.groupname;
     let body = req.body;
     serviceGroup.modifyByname(username, groupname, body, function(err, data){
-        console.log(err, data)
         // 保持接口统一
         if(err){ data = err; }
         res.json(data.info || '', data.errno, data.msg);
