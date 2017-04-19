@@ -1,0 +1,13 @@
+/**
+ * @file: index.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-18
+ * @description: this is a <jes> file
+ */
+/* eslint-disable */
+import serverModelDsGroup from './group';
+import serverModelDsUser from './user';
+
+
+export {serverModelDsGroup, serverModelDsUser }
+/* eslint-enable */

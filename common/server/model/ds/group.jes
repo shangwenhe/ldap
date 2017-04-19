@@ -1,0 +1,77 @@
+/**
+ * @file: group.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-18
+ * @description: this is a <jes> file
+ * @exports serverModelDsGroup
+ */
+/* eslint-disable */
+
+import DS from './dsbase';
+/**
+ * Creates a new serverModelDsGroup.
+ * @class
+ */
+class serverModelDsGroup extends DS {
+    /** 
+     * @constructs
+     * @defined model type
+     */
+    constructor(props) {
+        super(props);
+        this.type = 'ou';
+    }
+
+    /**
+     * 添加组
+     * @desc 如添加移动产品部
+     *  dsadd ou 'OU=移动产品部01,OU=xiaodutv,DC=xiaodutv,DC=com' -desc 移动产品部
+     * @param dn {string}
+     * @param group {object}
+     *  -desc Description 指定要添加的组的描述。
+     * @param callback {function}
+     * @callback 添加组成功/失败后回调
+     */
+    add(dn, group = {}, callback) {
+        let addCmd = this.stringify(Object.assign({}, {
+            "desc": "",
+        }, group,{
+            'dept': null
+        }));
+        dn =  this.type.toUpperCase() + '='+ group.dept + ',' + dn;
+        this.dsadd([this.type, dn, addCmd].join(' '), callback);
+    };
+
+    /**
+     * 删除组
+     * @param dn {string}
+     * ObjectDN 必需。指定要移动或重命名对象的可分辨名称。如果省略这些值，将通过标准输入 (stdin)
+     * 得到这些值以便支持从另一个命令以管道输出的形式输入到该命令。
+     * @param callback {function}
+     * @callback 删除组成功/失败后回调
+     */
+    del(dn, callback) {
+        this.dsdel([this.type, dn].join(' '), callback);
+    };
+
+    /**
+     * 修改组
+     * @param dn {string}
+     * @param group {object}
+     * group param 同 group add 
+     * @param callback {function}
+     * @callback 修改组成功/失败后回调
+     */
+    mod(dn, group = {}, callback) {
+        let modCmd = this.stringify(Object.assign({}, {
+            "secgrp": "no",
+            "scope": "g",
+            "samid": "",
+            "desc": "",
+        }, group));
+        this.dsmod([this.type, dn, modCmd].join(' '), callback);
+    };
+}
+
+export default new serverModelDsGroup;
+/* eslint-enable */

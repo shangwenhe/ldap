@@ -6,4 +6,114 @@
  */
 /* eslint-disable */
 import * as actived from '../model/';
+import async from 'async';
+
+class serviceGroup {
+
+    /**
+     * @param groupname 新增加的组名
+     * @param parentgroupname 新增组所属组[新增组的父级]
+     * @callback callback 回调新增组是否成功
+     */
+    addGroupForGroup(groupname, parentgroupname, groupdetail, callback) {
+
+        async.waterfall([
+            (callback) => {
+
+                /**
+                 * @desc 验证父级组是否存在
+                 */ 
+                actived.modelGroupQuery.name(parentgroupname, callback);
+            },
+            (groupinfo, callback) => {
+                let group  = groupinfo['groups'][0]
+
+                /**
+                 * @desc 验证所要新增的组父级组是否存在
+                 * @desc 如果组已经存在则退出 新增直接返回
+                 */ 
+                actived.modelGroupQuery.name(groupname, group['dn'], function(err, data){
+                    if(!err){
+                        callback({info: data.groups, msg: 'group exist', errno: 40420});
+                        return;
+                    }
+                    callback(null, group)
+                });
+            },
+            (group, callback) =>{
+                actived.modelGroupAdd.forGroup(groupname, group['dn'], groupdetail, callback);
+            }
+        ], callback);
+
+
+    }
+    /**
+     * @param groupname 删除加的组名
+     * @param parentgroupname 删除组所属组[删除组的父级]
+     * @callback callback 回调删除组是否成功
+     */
+    delGroupForGroup(groupname, parentgroupname, callback) {
+
+        async.waterfall([
+            (callback) => {
+
+                /**
+                 * @desc 验证父级组是否存在
+                 */ 
+                actived.modelGroupQuery.name(parentgroupname, callback);
+            },
+            (groupinfo, callback) => {
+                let group  = groupinfo['groups'][0]
+
+                /**
+                 * @desc 验证所要删除的组父级组是否存在
+                 * @desc 如果组已经存在则退出 删除直接返回
+                 */ 
+                actived.modelGroupQuery.name(groupname, group['dn'], function(err, info){
+                     
+                    if (err) {
+                        callback({
+                            errno: 40412,
+                            msg: 'find group error'
+                        });
+                        return;
+                    }
+                    if (!info) {
+                        callback({
+                            errno: 40411,
+                            msg: 'group no-exist'
+                        });
+                        return;
+                    }
+                    callback(err, info['groups'][0]);
+                
+                });
+            },
+            (group, callback) =>{
+                /**
+                 * @desc 通过dn 删除数据
+                 * @param groupinfo  组的相关信息
+                 * @callback
+                 */
+                actived.modelGroupDelete.dn(group, callback);
+            }
+        ], callback);
+    }
+    
+    /**
+     * @desc 修改组的相关属性
+     * @param groupname 被修改的组名\用于查找被修改的组
+     * @param groupinfo 修改组的信息
+     * @callback callback 
+     */
+    modifyGroup(groupname, groupinfo, callback){
+        
+    }
+    
+
+}
+
+export default new serviceGroup;
+
+
 /* eslint-enable */

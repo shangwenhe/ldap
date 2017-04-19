@@ -6,9 +6,15 @@
  */
 /* eslint-disable */
 import AD from '../ldapbase';
+
 class modelGroupQuery extends AD {
 
-    name (groupname, callback) {
+    name (groupname, domain, callback) {
+
+        if(typeof domain == 'function'){
+            callback = domain; 
+            domain = 'dc=xiaodutv,dc=com';
+        }
 
         let client = this.createClient();
         var opts = {
@@ -17,7 +23,7 @@ class modelGroupQuery extends AD {
             attributes: ['dn', 'objectCategory', 'ou']
         };
 
-        client.search('dc=xiaodutv,dc=com', opts, function(err, res) {
+        client.search(domain, opts, function(err, res) {
 
             let results = [];
             res.on('searchEntry', function(entry) {

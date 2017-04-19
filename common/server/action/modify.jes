@@ -4,11 +4,34 @@
  * @date: 2017-03-30
  * @description: this is a <js> file
  */
+import serviceUser from '../service/user';
+import serviceGroup from '../service/group';
+
 /* eslint-disable */
 export function user(req, res){
-    res.send('book modify');
+  
+    let username = req.params.username;
+    let groupname = req.params.groupname;
+    let body = req.body;
+    serviceUser.modifyByname(username, groupname, body, function(err, data){
+        console.log(err, data)
+        // 保持接口统一
+        if(err){ data = err; }
+        res.json(data.info || '', data.errno, data.msg);
+    
+    });
+
 };
 export function group(req, res){
-    res.json({})
+
+    let groupname = req.params.groupname;
+    let body = req.body;
+    serviceGroup.modifyByname(username, groupname, body, function(err, data){
+        console.log(err, data)
+        // 保持接口统一
+        if(err){ data = err; }
+        res.json(data.info || '', data.errno, data.msg);
+    
+    });
 }
 /* eslint-enable */

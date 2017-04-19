@@ -6,5 +6,28 @@
  */
 /* eslint-disable */
 import AD from '../ldapbase';
-class modelGroupDelete extends AD {}
+class modelGroupDelete extends AD {
+    /**
+     * @desc 通过dn 删除数据
+     * @param groupinfo  组的相关信息
+     * @callback
+     */
+    dn(groupinfo, callback){
+        let client = this.createClient();
+        client.del(groupinfo.dn, function(err, info) {
+            if(err){
+                callback({
+                    errno: 40408,
+                    msg: 'delete group error'
+                });
+                return; 
+            }
+            callback(null, {
+                info: groupinfo
+            });
+        });
+    
+    }
+}
+export default new modelGroupDelete;
 /* eslint-enable */

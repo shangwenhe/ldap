@@ -54,8 +54,7 @@ class serviceAuthenticate {
     decipherCookie(INNERUSS) {
         let [cookievalue, saltlen, saltpos] = INNERUSS.split('::');
         let [ encrypted,  salt] = this.decipherWithSalt(cookievalue, saltlen, saltpos);
-        let info = this.decipher(encrypted, salt);
-    
+        return this.decipher(encrypted, salt);
     }
 }
 

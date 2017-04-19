@@ -1,0 +1,79 @@
+/**
+ * @file: dsbase.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-18
+ * @description: this is a <jes> file
+ */
+/* eslint-disable */
+
+let exec = require('child_process').exec
+class DS {
+    /** 
+     * @constructs
+     * @defined model type
+     */
+    constructor(props) {
+        this.exec = function(cmd, callback){
+            exec(cmd, function(err, data){
+                if(err){
+                    callback({errno: 4040001, info: cmd, msg: 'exec cmd error'});
+                    return;
+                }
+                callback(err, {
+                    cmd,
+                    status: 'OK'
+                })
+            })
+        }
+    }
+    // http://blog.hehehehehe.cn/a/525.htm 
+    verifyCmd(cmd) {
+
+        if (typeof cmd == 'string') {
+            return false;
+        }
+        return true;
+    };
+    stringify( cmd = {}){
+       let result = [];
+       for (let key of Object.keys(cmd)) {
+           cmd[key] && result.push(['-', key, ' ', cmd[key]].join(''));
+       }
+       return result.join(' ');
+
+    }
+    dsadd(cmd, callback) {
+        if (this.verifyCmd(cmd)) {
+            callback({
+                errno: 40420,
+                msg: 'dsadd arg must be string typeof',
+            })
+            return;
+        }
+        this.exec('dsadd ' + cmd + ' -q', callback);
+    };
+    dsdel(cmd, callback) {
+        if (this.verifyCmd(cmd)) {
+            callback({
+                errno: 40421,
+                msg: 'dsmove arg must be string typeof',
+            })
+            return;
+        }
+        this.exec('dsmove ' + cmd + ' -q', callback);
+    };
+    dsmod(cmd, callback) {
+        if (this.verifyCmd(cmd)) {
+            callback({
+                errno: 40422,
+                msg: 'dsmod arg must be string typeof',
+            })
+            return;
+        }
+        this.exec('dsmod ' + cmd + ' -q', callback);
+    };
+
+}
+
+export default DS;
+/* eslint-enable */

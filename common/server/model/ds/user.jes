@@ -1,0 +1,186 @@
+/**
+ * @file: user.jes
+ * @author: shangwenhe@itv.baidu.com
+ * @date: 2017-04-18
+ * @description: this is a <jes> file
+ * @exports serverModelDsUser
+ */
+/* eslint-disable */
+import DS from './dsbase';
+
+/**
+ * Creates a new serverModelDsUser.
+ * @class
+ */
+class serverModelDsUser extends DS {
+
+    /** 
+     * @constructs
+     * @defined model type
+     */
+    constructor(props) {
+        super(props);
+        this.type = 'user';
+    }
+
+    /**
+     * 添加用户
+     * @param dn {string}
+     * @param user {object}
+     * UserDN  必需。指定要添加的用户的可分辨名称。如果省略可分辨名称，则将从标准输入 (stdin) 中获取该名称。
+     * -samid SAMName
+     *  指定 SAM 名称作为该用户的唯一 SAM 帐户名（例如，Linda）。如果未指定，dsadd 将尝试使用 UserDN
+     *  的公用名 (CN) 值的至多前 20 个字符创建 SAM 帐户名。
+     *  -upn UPN
+     *  指定要添加的用户的用户主体名称（例如，Linda@widgets.microsoft.com）。
+     *  -fn FirstName
+     *  指定要添加的用户的名字。
+     *  -mi Initial
+     *  指定要添加的用户的中间名首字母。
+     *  -ln LastName
+     *  指定要添加的用户的姓氏。
+     *  -display DisplayName
+     *  指定要添加的用户的显示名。
+     *  -empid EmployeeID
+     *  指定要添加的用户的雇员 ID。
+     *  -pwd {Password | *}
+     *  指定将用户密码设置为 Password 或 *。如果设置为 *，将提示您输入用户密码。
+     *  -desc Description
+     *  指定要添加的用户的描述。
+     *  -memberof GroupDN ...
+     *  指定希望用户加入的组的可分辨名称。
+     *  -office Office
+     *  指定要添加的用户的办公室位置。
+     *  -tel PhoneNumber
+     *  指定要添加的用户的电话号码。
+     *  -email Email
+     *  指定要添加的用户的电子邮件地址。
+     *  -hometel HomePhoneNumber
+     *  指定要添加的用户的家庭电话号码。
+     *  -pager PagerNumber
+     *  指定要添加的用户的寻呼机号码。
+     *  -mobile CellPhoneNumber
+     *  指定要添加的用户的移动电话号码。
+     *  -fax FaxNumber
+     *  指定要添加的用户的传真号码。
+     *  -iptel IPPhoneNumber
+     *  指定要添加的用户的 IP 电话号码。
+     *  -webpg WebPage
+     *  指定要添加的用户的 Web 页的 URL。
+     *  -title Title
+     *  指定要添加的用户的称谓。
+     *  -dept Department
+     *  指定要添加的用户的部门。
+     *  -company Company
+     *  指定要添加的用户的公司信息。
+     *  -mustchpwd {yes | no}
+     *  指定用户是否必须在下次登录时更改其密码（yes 必须更改，no
+     *  不必更改）。默认情况下，用户不必更改密码 (no)。
+     *  -canchpwd {yes | no}
+     *  指定用户是否可以更改其密码（yes 可以更改，no 根本不能更改）。默认情况下，允许用户更改密码
+     *  (yes)。如果 -mustchpwd 参数的值为 yes，则该参数的值必须为 yes。
+     *  -reversiblepwd {yes | no}
+     *  指定是否应使用可逆加密来存储用户密码（yes 表示应该，no
+     *  表示不应该）。默认情况下，用户不能使用可逆加密 (no)。
+     *  -pwdneverexpires {yes | no}
+     *  指定用户密码是否永不过期（yes 表示是，no 表示不是）。默认情况下，用户密码会过期 (no)。
+     *  -acctexpires NumberOfDays
+     *  指定从今天算起用户帐户将到期的天数。0
+     *  值表示将今天的结束时间设置为到期时间。正值表示将将来的时间设置为到期时间。负值表示将以前的时间设置为到期时间。值
+     *  never 将帐户设置为永不过期。例如，0 值表示该帐户在今天结束时过期。值 -5 表示该帐户 5
+     *  天前就已经到期，并将以前的时间设置为到期日期。值 5 表示该帐户将在 5 天后到期。
+     *  -disabled {yes | no} *  指定是否禁用用户帐户登录（yes 禁用登录，no 允许登录）。默认情况下，启用用户帐户登录 (no)。
+     * @param callback {function}
+     * @callback 添加用户成功/失败后回调
+     */
+    add(dn, user = {}, callback) {
+        let addCmd = this.stringify(Object.assign({}, {
+            "samid": "",
+            "upn": "",
+            "fn": "",
+            "mi": "",
+            "ln": "",
+            "display": "",
+            "empid": "",
+            "pwd": "",
+            "desc": "",
+            "memberof": "",
+            "office": "",
+            "tel": "",
+            "email": "",
+            "hometel": "",
+            "pager": "",
+            "mobile": "",
+            "fax": "",
+            "iptel": "",
+            "webpg": "",
+            "title": "",
+            "dept": "",
+            "company": "",
+            "mustchpwd": "no",
+            "canchpwd": "yes",
+            "reversiblepwd": "no",
+            "pwdneverexpires": "no",
+            "disabled": "no",
+        }, user));
+        /**
+         * 拼接dn 
+         */
+        dn = 'CN='+ user.samid + ',' + dn;
+        this.dsadd([this.type, dn, addCmd].join(' '), callback);
+    };
+
+    /**
+     * 删除用户
+     * @param dn {string}
+     * ObjectDN 必需。指定要移动或重命名对象的可分辨名称。如果省略这些值，将通过标准输入 (stdin)
+     * 得到这些值以便支持从另一个命令以管道输出的形式输入到该命令。
+     * @param callback {function}
+     * @callback 删除用户成功/失败后回调
+     */
+    del(dn, callback) {
+        this.dsdel([this.type, dn].join(' '), callback);
+    };
+
+    /**
+     * 修改用户
+     * @param dn {string}
+     * @param user {object}
+     * user param 同 user add 
+     * @param callback {function}
+     * @callback 修改用户成功/失败后回调
+     */
+    mod(dn, user = {}, callback) {
+        let modCmd = this.stringify(Object.assign({}, {
+            "upn": "",
+            "fn": "",
+            "mi": "",
+            "ln": "",
+            "display": "",
+            "empid": "",
+            "pwd": "",
+            "desc": "",
+            "memberof": "",
+            "office": "",
+            "tel": "",
+            "email": "",
+            "hometel": "",
+            "pager": "",
+            "mobile": "",
+            "fax": "",
+            "iptel": "",
+            "webpg": "",
+            "title": "",
+            "dept": "",
+            "company": "",
+            "mustchpwd": "no",
+            "canchpwd": "yes",
+            "reversiblepwd": "no",
+            "pwdneverexpires": "no",
+            "disabled": "no",
+        }, user));
+        this.dsmod([this.type, dn, modCmd].join(' '), callback);
+    };
+}
+export default new serverModelDsUser;
+/* eslint-enable */

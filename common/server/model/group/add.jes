@@ -5,6 +5,33 @@
  * @description: this is a <js> file
  */
 /* eslint-disable */
+
 import AD from '../ldapbase';
-class modelGroupAdd extends AD {}
+import * as DS from '../ds/';
+
+class modelGroupAdd extends AD {
+
+
+    /**
+     * @desc 在某个组下添加组
+     * @param addgroupname 新增组名
+     * @param domain 新增组所在节点
+     * @callback callback
+     */
+    forGroup(addgroupname, domain, group, callback){
+    
+        let { username, password } = this.opts ;
+        let params = Object.assign({}, group, {
+            u: username,
+            p: password
+        });
+        console.log(domain);
+
+        DS.serverModelDsGroup.add(domain, params, function(err, info){
+            callback(null, { info}) 
+        })
+    
+    }
+}
+export default new modelGroupAdd;
 /* eslint-enable */

@@ -14,10 +14,21 @@ export function user (req, res){
     // 从根上取得所有数据
     let ad = actived.modelUserQuery;
     ad.fromRoot(req.params.username, function(err, info){
+        if(err){
+            res.json(err);
+            return;
+        }
         res.json(info);
     });
 }
 export function group(req, res){
-    res.json({})
+    let ad = actived.modelGroupQuery;
+    ad.name(req.params.groupname,function(err, info){
+        if(err){
+            res.json(err);
+            return;
+        }
+        res.json(info.groups);
+    });
 }
 /* eslint-enable */

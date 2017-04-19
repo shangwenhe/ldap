@@ -9,7 +9,13 @@ import * as actived from '../model/';
 import async from 'async';
 
 class serviceUser {
-    addUserForGroup(username, groupname, callback) {
+
+    /**
+     * @param username 用户名
+     * @param groupname 新增用户所属组
+     * @callback  添加用户是否成功回调
+     */
+    addUserForGroup(username, groupname, body, callback) {
         // 添加用户
         async.waterfall([
             (callback) => {
@@ -28,7 +34,7 @@ class serviceUser {
                 })
             }, (data, callback) => {
 
-                actived.modelUserAdd.forGroup(username, data[0]['dn'], callback)
+                actived.modelUserAdd.forGroup(username, data[0]['dn'], body, callback)
                     // 用户不存在则添加用户
                     //callback(null, {
                     //    info: 'adduser'
@@ -36,6 +42,12 @@ class serviceUser {
             }
         ], callback)
     }
+
+    /**
+     * @param username 用户名
+     * @param groupname 用户所属组
+     * @callback  删除用户是否成功回调
+     */
     delUserForGroup(username, groupname, callback) {
     
         async.waterfall([
@@ -68,6 +80,10 @@ class serviceUser {
     
     
     }
+    /**
+     * @param samid 通过唯一的samid删除用户
+     * @callback  删除用户是否成功回调
+     */
     delUserBySamid(samid, callback) {
         async.waterfall([
             (callback) => {
@@ -87,6 +103,14 @@ class serviceUser {
             }
         ], callback );
     }
+    /**
+     * @param username 用户名
+     * @param body 用户认证的相关信息
+     * @param body.username
+     * @param body.password
+     * @param body.remember
+     * @callback  用户认证是否成功回调
+     */
     authen(username, body, callback){
         async.waterfall([
             (callback) => {
@@ -106,7 +130,6 @@ class serviceUser {
                         callback(err);
                         return;
                     }
-
                     let { cn, dept, displayName, mail } = userinfo;
                     callback(null, Object.assign({}, info, {
                         info: {
@@ -117,6 +140,36 @@ class serviceUser {
             }
         ], callback)
     }
+    /**
+     *
+     */
+    modifyByname(username, groupname, userinfo, callback){
+        async.waterfall([
+            (callback) => {
+                // 验证组是否存在 
+                actived.modelGroupQuery.name(groupname, function(err, group){
+                    if(err){
+                        callback(err)
+                        return;
+                    } 
+                    callback(err, group['groups'][0]);
+                })
+            },
+            (group, callback) => {
+                actived.modelUserQuery.fromGroup(username, group.dn, function(err, user){
+                    if(err){
+                        callback(err)
+                        return;
+                    } 
+                    callback(err, user['users'][0]);
+                });
+            },
+            (user, callback)=>{
+                actived.modelUserModify.forDn(user['dn'], userinfo, callback)
+            }
+        ], callback);
+    }
+     
 
 }
 

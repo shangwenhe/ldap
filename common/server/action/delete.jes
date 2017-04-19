@@ -7,6 +7,7 @@
 /* eslint-disable */
 
 import serviceUser from '../service/user';
+import serviceGroup from '../service/group';
 
 export function user(req, res) {
     if (!req.params.username) {
@@ -29,7 +30,7 @@ export function userOfGroup(req, res){
         return;
     }
     if (!req.params.groupname) {
-        res.json('', 40410, 'not empty username; error');
+        res.json('', 40410, 'not empty groupname; error');
         return;
     }
     let { username, groupname } = req.params;
@@ -44,6 +45,22 @@ export function userOfGroup(req, res){
 
 }
 export function group(req, res){
-    res.json({})
+
+    if (!req.params.parentname) {
+        res.json('', 40407, 'not empty parentname; error');
+        return;
+    }
+    if (!req.params.groupname) {
+        res.json('', 40410, 'not empty groupname; error');
+        return;
+    }
+    let { parentname, groupname } = req.params;
+    serviceGroup.delGroupForGroup(groupname, parentname, function(err, info){
+        if (err) {
+            info = err;
+        }
+        res.json(info.info || '', 0, info.msg);
+
+    });
 }
 /* eslint-enable */

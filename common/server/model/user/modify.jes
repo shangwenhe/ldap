@@ -6,8 +6,33 @@
  */
 /* eslint-disable */
 import AD from '../ldapbase';
-class modelUserModify extends AD {
+import * as DS from '../ds/';
 
+class modelUserModify extends AD {
+    /**
+     * @desc 修改用户相关属性
+     * @param domain 用户所属节点
+     * @param userinfo 修改用户的详细信息
+     * @callback callback
+     */
+    forDn(domain, userinfo, callback){
+    
+        let { username, password } = this.opts ;
+        let params = Object.assign({}, userinfo, {
+            u: username,
+            p: password
+        });
+        DS.serverModelDsUser.mod(domain, params, function(err, info){
+            if(err){
+                callback(err)
+                return;
+            }
+            callback({
+                info: userinfo
+            })
+        });
+    }
 
 }
+export default new modelUserModify;
 /* eslint-enable */

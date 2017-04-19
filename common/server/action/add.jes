@@ -8,20 +8,50 @@
 
 
 import serviceUser from '../service/user';
+import serviceGroup from '../service/group';
 
 export function user(req, res){
 
     let { username, groupname } = req.params;
-    serviceUser.addUserForGroup(username, groupname , function(err, data){
+
+    //let body ={
+    //        "samid": "",
+    //        "upn": "",
+    //        "fn": "",
+    //        "ln": "",
+    //        "display": "",
+    //        "pwd": "",
+    //        "desc": "",
+    //        "office": "",
+    //        "tel": "",
+    //        "email": "",
+    //        "hometel": "",
+    //        "mobile": "",
+    //        "webpg": "",
+    //        "title": "",
+    //}
+    
+    /**
+     * @param username 用户名
+     * @param groupname 新增用户所属组
+     * @callback  添加用户是否成功回调
+     */
+    serviceUser.addUserForGroup(username, groupname, req.body, function(err, data){
         // 保持接口统一
         if(err){ data = err; }
         res.json(data.info || '', data.errno, data.msg);
-
-
     });
 };
 
 export function group(req, res){
-    res.json({})
+    let { groupname, parentname } = req.params;
+    // let body = {
+    //     "desc": groupname,
+    // };
+    serviceGroup.addGroupForGroup(groupname, parentname, req.body,function(err, data){
+        // 保持接口统一
+        if(err){ data = err; }
+        res.json(data.info || '', data.errno, data.msg);
+    })
 }
 /* eslint-enable */
