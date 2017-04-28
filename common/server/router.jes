@@ -87,7 +87,10 @@ export default function(router) {
 
     // 修改组
     router.post('/gmodify/:groupname', router.action('modify').group);
+    router.post('/gmodify/:groupname/:parentname', router.action('modify').groupForGroup);
 
+    // 查找组成员
+    router.post('/guserlist/:groupname', router.action('query').groupUserList);
 
 };
 /* eslint-enable */

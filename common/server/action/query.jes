@@ -8,6 +8,7 @@
 
 
 import * as actived from '../model/'
+import serviceUser from '../service/user';
 
 export function user (req, res){
 
@@ -29,6 +30,16 @@ export function group(req, res){
             return;
         }
         res.json(info.groups);
+    });
+}
+export function groupUserList(req, res){
+    let groupname = req.params.groupname;
+    serviceUser.groupUserList(groupname, function(err, info){
+        if(err){
+            res.json(err);
+            return;
+        }
+        res.json({ info: info.users });
     });
 }
 /* eslint-enable */

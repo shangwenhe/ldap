@@ -10,6 +10,9 @@ import AD from '../ldapbase';
 
 
 class modelUserQuery extends AD {
+    /**
+     * @desc 从指定的节点查找用户
+     */
     fromGroup(username, domain, callback) {
         let client = this.createClient();
         var opts = {
@@ -44,8 +47,50 @@ class modelUserQuery extends AD {
                 });
             });
         });
+    }
+
+    /**
+     * @desc 展示出指定组下的所有用户
+     */
+    userList(domain, callback) {
+        let client = this.createClient();
+        var opts = {
+            filter: '(&(objectCategory=person))',
+            scope: 'sub',
+            attributes: ['dn', 'objectCategory', 'ou', 'displayName', 'mail', 'sAMAccountName']
+        };
+
+        client.search(domain, opts, function(err, res) {
+            let results = [];
+            res.on('searchEntry', function(entry) {
+                results.push(entry.object);
+            });
+            res.on('error', function(err) {
+                callback({
+                    errno: 40405,
+                    msg: 'find user error',
+                });
+            });
+            res.on('end', function(result) {
+                if (result.status || !results.length) {
+                    callback({
+                        errno: 40404,
+                        msg: 'user non-existent',
+                    });
+                    return;
+                }
+                callback(null, {
+                    errno: 0,
+                    msg: '',
+                    users: results
+                });
+            });
+        });
     };
 
+    /**
+     * @desc 从跟节点查找用户
+     */
     fromRoot(username, callback) {
         this.findUser(username, function(err, data){
           

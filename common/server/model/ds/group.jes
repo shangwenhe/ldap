@@ -64,9 +64,6 @@ class serverModelDsGroup extends DS {
      */
     mod(dn, group = {}, callback) {
         let modCmd = this.stringify(Object.assign({}, {
-            "secgrp": "no",
-            "scope": "g",
-            "samid": "",
             "desc": "",
         }, group));
         this.dsmod([this.type, dn, modCmd].join(' '), callback);

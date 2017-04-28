@@ -21,15 +21,23 @@ export function user(req, res){
     });
 
 };
-export function group(req, res){
-
+export function groupForGroup(req, res){
     let groupname = req.params.groupname;
+    let parentname = req.params.parentname;
     let body = req.body;
-    serviceGroup.modifyByname(username, groupname, body, function(err, data){
+    serviceGroup.modifyGroupForGroup(groupname, parentname, body, function(err, data){
         // 保持接口统一
         if(err){ data = err; }
         res.json(data.info || '', data.errno, data.msg);
-    
+    });
+}
+export function group(req, res){
+    let groupname = req.params.groupname;
+    let body = req.body;
+    serviceGroup.modifyGroup(groupname, body, function(err, data){
+        // 保持接口统一
+        if(err){ data = err; }
+        res.json(data.info || '', data.errno, data.msg);
     });
 }
 /* eslint-enable */

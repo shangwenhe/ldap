@@ -10,7 +10,15 @@ import serviceUser from '../service/user';
 import serviceAuthenticate from '../service/authenticate';
 
 export function get(req, res){
-    res.json({}, 40412, 'used post type');
+    let { username } = req.params;
+    serviceUser.authen(username, req.query, function(err, data){
+        if(err){ data = err; }
+        if(req.query.callback){
+            res.send(req.query.callback + '(' + JSON.stringify(data)+ ')');
+            return;
+        }
+        res.json(data.info || '', data.errno, data.msg);
+    })
 }
 
 export function post(req, res){

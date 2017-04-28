@@ -169,6 +169,28 @@ class serviceUser {
             }
         ], callback);
     }
+    groupUserList(groupname, callback){
+        async.waterfall([
+            (callback) => {
+                // 验证组是否存在 
+                actived.modelGroupQuery.name(groupname, function(err, group){
+                    if(err){
+                        callback(err)
+                        return;
+                    } 
+                    callback(err, group['groups'][0]);
+                })
+            },
+            (group, callback) => {
+                
+                /**
+                 * @desc 查找组内的所有用户
+                 */
+                actived.modelUserQuery.userList(group['dn'], callback);
+            }
+            ],callback)
+    
+    } 
      
 
 }

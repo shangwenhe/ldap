@@ -6,5 +6,31 @@
  */
 /* eslint-disable */
 import AD from '../ldapbase';
-class modelGroupModify extends AD {}
+import * as DS from '../ds/';
+
+class modelGroupModify extends AD {
+   /**
+    * @desc 修改组属性
+    * @param domain 所要修改的组的节点
+    * @param groupinfo  修改组属性的集合
+    * @callback callback
+    */ 
+    forGroup(domain, groupinfo, callback){
+        
+        // 取得执行权限
+        let { username, password } = this.opts ;
+        let params = Object.assign({}, groupinfo, {
+            "u": username,
+            "p": password
+        });
+        DS.serverModelDsGroup.mod(domain, params, function(err, info){
+            if(err){
+                callback(err);
+                return;
+            }
+            callback(null, { info}) 
+        });
+    }
+}
+export default new modelGroupModify;
 /* eslint-enable */

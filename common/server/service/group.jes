@@ -107,10 +107,81 @@ class serviceGroup {
      * @callback callback 
      */
     modifyGroup(groupname, groupinfo, callback){
-        
+        async.waterfall([
+            (callback) => {
+                // 验证组是否存在 
+                actived.modelGroupQuery.name(groupname, function(err, group){
+                    if(err){
+                        callback(err)
+                        return;
+                    } 
+                    if(group.groups.length > 1){
+                        callback({
+                            info: '',
+                            msg: 'Multiple modify groups',
+                            errno: '404032'
+                        });
+                        return; 
+                    }
+                    callback(err, group['groups'][0]);
+                })
+            },
+            (group, callback)=>{
+                actived.modelGroupModify.forGroup(group['dn'], groupinfo, callback)
+            }
+        ], callback);
     }
-    
 
+    /**
+     * @desc 修改组的相关属性
+     * @param groupname 被修改的组名\用于查找被修改的组
+     * @param parentname 被修改的组名\用于查找被修改的组
+     * @param groupinfo 修改组的信息
+     * @callback callback 
+     */
+    modifyGroupForGroup(groupname, parentname, groupinfo, callback){
+        async.waterfall([
+            (callback) => {
+                // 验证组是否存在 
+                actived.modelGroupQuery.name(parentname, function(err, group){
+                    if(err){
+                        callback(err)
+                        return;
+                    } 
+                    if(group.groups.length > 1){
+                        callback({
+                            info: '',
+                            msg: 'Multiple parent groups',
+                            errno: '404031'
+                        });
+                        return; 
+                    }
+                    callback(err, group['groups'][0]);
+                })
+            },
+            (group, callback) => {
+                // 验证组是否存在 
+                actived.modelGroupQuery.name(parentname, group['dn'], function(err, group){
+                    if(err){
+                        callback(err)
+                        return;
+                    } 
+                    if(group.groups.length > 1){
+                        callback({
+                            info: '',
+                            msg: 'Multiple modify groups',
+                            errno: '404032'
+                        });
+                        return; 
+                    }
+                    callback(err, group['groups'][0]);
+                })
+            },
+            (group, callback)=>{
+                actived.modelGroupModify.forGroup(group['dn'], groupinfo, callback)
+            }
+        ], callback);
+    }
 }
 
 export default new serviceGroup;
